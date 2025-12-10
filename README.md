@@ -70,25 +70,27 @@ Create a `.env` file in the root directory:
 
 ```bash
 # Database
-DATABASE_URL="postgresql://username:password@localhost:5432/auto_rfp"
-DIRECT_URL="postgresql://username:password@localhost:5432/auto_rfp"
+DATABASE_URL=postgresql://username:password@localhost:5432/auto_rfp
+DIRECT_URL=postgresql://username:password@localhost:5432/auto_rfp
 
 # Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL="your-supabase-project-url"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="your-supabase-anon-key"
+NEXT_PUBLIC_SUPABASE_URL=<your-supabase-project-url>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
 
 # OpenAI API
-OPENAI_API_KEY="your-openai-api-key"
+OPENAI_API_KEY=<your-openai-api-key>
 
 # LlamaCloud
-LLAMACLOUD_API_KEY="your-llamacloud-api-key"
+LLAMACLOUD_API_KEY=<your-llamacloud-api-key>
 # Optional: Internal API key and domain for internal users
-# LLAMACLOUD_API_KEY_INTERNAL="your-internal-llamacloud-api-key"
-# INTERNAL_EMAIL_DOMAIN="@yourdomain.com"  # Defaults to @runllama.ai
+# LLAMACLOUD_API_KEY_INTERNAL=<your-internal-llamacloud-api-key>
+# INTERNAL_EMAIL_DOMAIN=<your-domain>  # Defaults to @runllama.ai
 
 # App Configuration
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
+
+**Note**: To use the env file for the app AND for docker the env var values cannot be in quotes.
 
 ### 4. Database Setup
 
