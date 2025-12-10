@@ -7,8 +7,9 @@
     "dev": "next dev --turbopack",
     "docker-build": "docker build --tag auto-rfp .",
     "docker-log": "docker logs --follow auto-rfp",
-    "docker-run": "docker run --detach --network host --env-file .env.local --name auto-rfp auto-rfp",
+    "docker-run": "docker run --rm --detach --network host --env-file .env.local --name auto-rfp auto-rfp",
     "docker-stop": "docker stop auto-rfp",
+    "health-check": "curl http://localhost:3000/api/health",
     "lint": "next lint",
     "postinstall": "prisma generate",
     "start": "next start"
