@@ -66,7 +66,7 @@ pnpm install
 
 ### 3. Environment Setup
 
-Create a `.env.local` file in the root directory:
+Create a `.env` file in the root directory:
 
 ```bash
 # Database
