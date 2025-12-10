@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
       status: "healthy",
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
-      environment: env.NODE_ENV,
+      environment: process.env.NODE_ENV,
     };
   });
 }
