@@ -49,8 +49,14 @@ export class LlamaParseService {
       const { LlamaParseReader } = llamaIndexModule;
       
       // Step 4: Configure options based on the mode
+      // Extract base URL with protocol but without /api/v1 path for LlamaParseReader
+      // e.g., 'https://api.cloud.llamaindex.ai'
+      const url = new URL(env.get('LLAMACLOUD_API_URL')!);
+      const baseUrlWithProtocol = `${url.protocol}//${url.hostname}`;
+
       let readerOptions: Record<string, any> = {
         apiKey: this.apiKey,
+        baseUrl: baseUrlWithProtocol,
         resultType: "markdown"
       };
       
