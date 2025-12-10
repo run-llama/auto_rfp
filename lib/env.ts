@@ -18,7 +18,7 @@ export const env = {
 
   // LlamaCloud
   LLAMACLOUD_API_KEY: process.env.LLAMACLOUD_API_KEY || 'warning-env-not-set',
-  LLAMACLOUD_API_KEY_INTERNAL: process.env.LLAMACLOUD_API_KEY_INTERNAL || 'warning-env-not-set',
+  LLAMACLOUD_API_KEY_INTERNAL: process.env.LLAMACLOUD_API_KEY_INTERNAL,
   LLAMACLOUD_API_URL: process.env.LLAMACLOUD_API_URL || 'https://api.cloud.llamaindex.ai/api/v1',
   INTERNAL_EMAIL_DOMAIN: process.env.INTERNAL_EMAIL_DOMAIN || '@runllama.ai',
 
