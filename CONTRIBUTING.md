@@ -53,8 +53,8 @@ cd auto_rfp
 pnpm install
 
 # 3. Copy environment file and configure
-cp .env.example .env.local
-# Edit .env.local with your configuration
+cp .env.example .env
+# Edit .env with your configuration
 
 # 4. Set up database
 pnpm prisma generate
@@ -66,7 +66,7 @@ pnpm dev
 
 ### Environment Variables
 
-Create a `.env.local` file with these variables:
+Create a `.env` file with these variables:
 
 ```bash
 # Database
