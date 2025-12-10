@@ -7,7 +7,7 @@ import {
   ResponseResult,
   ResponseSource,
   SourceNode
-} from "./interfaces/llama-index";
+} from "./interfaces/llamaindex";
 import { DefaultResponseService } from "./services/default-response-service";
 import { ExternalServiceError } from "./errors/api-errors";
 

@@ -1,4 +1,4 @@
-import { ResponseResult } from '@/lib/interfaces/llama-index';
+import { ResponseResult } from '@/lib/interfaces/llamaindex';
 
 interface ResponseTemplate {
   keywords: string[];
