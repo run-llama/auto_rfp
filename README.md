@@ -118,7 +118,7 @@ pnpm prisma db seed
 
 ### 5. Supabase Setup
 
-1. Create a new Supabase project at [supabase.com](https://supabase.com)
+1. Create a new Supabase project at [supabase.com][]
 2. Go to **Settings > API** and copy:
    - Project URL → `NEXT_PUBLIC_SUPABASE_URL`
    - Anon public key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
@@ -127,14 +127,14 @@ pnpm prisma db seed
 
 ### 6. OpenAI Setup
 
-1. Create an account at [platform.openai.com](https://platform.openai.com)
+1. Create an account at [platform.openai.com][]
 2. Generate an API key in **API Keys** section
 3. Add credits to your account
 4. Copy the API key to `OPENAI_API_KEY`
 
 ### 7. LlamaCloud Setup (Optional)
 
-1. Create an account at [cloud.llamaindex.ai](https://cloud.llamaindex.ai)
+1. Create an account at [cloud.llamaindex.ai][]
 2. Create a new project
 3. Generate an API key
 4. Copy the API key to `LLAMACLOUD_API_KEY`
@@ -145,7 +145,7 @@ pnpm prisma db seed
 pnpm dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to see the application.
+Visit [http://localhost:3000][] to see the application.
 
 ## 📁 Project Structure
 
@@ -262,7 +262,7 @@ The application can be deployed to any platform that supports Node.js:
 ## 🧪 Sample Data
 
 Try the platform with our sample RFP document:
-- **Sample File**: [RFP - Launch Services for Medium-Lift Payloads](https://qluspotebpidccpfbdho.supabase.co/storage/v1/object/public/sample-files//RFP%20-%20Launch%20Services%20for%20Medium-Lift%20Payloads.pdf)
+- **Sample File**: [RFP - Launch Services for Medium-Lift Payloads][rfp-sample-file]
 - **Use Case**: Download and upload to test question extraction and response generation
 
 ## 🐛 Troubleshooting
@@ -331,7 +331,7 @@ pnpm lint
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE][] file for details.
 
 ## 🙏 Acknowledgments
 
@@ -350,3 +350,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 Built with ❤️ using Next.js, LlamaIndex, and OpenAI
+
+[LICENSE]: ./LICENSE
+[cloud.llamaindex.ai]: https://cloud.llamaindex.ai
+[http://localhost:3000]: http://localhost:3000
+[platform.openai.com]: https://platform.openai.com
+[rfp-sample-file]: https://qluspotebpidccpfbdho.supabase.co/storage/v1/object/public/sample-files//RFP%20-%20Launch%20Services%20for%20Medium-Lift%20Payloads.pdf
+[supabase.com]: https://supabase.com
