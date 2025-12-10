@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev --turbopack",
+    "docker-build": "docker build -t auto-rfp .",
+    "docker-run": "docker run --network host --env-file .env.local auto-rfp",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "start": "next start"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.22",
