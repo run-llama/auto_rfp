@@ -257,6 +257,8 @@ pnpm docker-run
 
 **Note:** The Docker container uses Next.js standalone output mode for optimized production deployment. Make sure your `.env.local` includes a database connection string that's accessible from within the Docker container.
 
+**IMPORTANT NOTE**: When you build/run a docker container all of the `NEXT_*` env vars are resolved at `build-time` (when the container is built; because the vars also need to be available in the frontend and are generated into the frontend code). The other vars are resolved at `run-time` (when the container is started). Means, if you (for instance) need to set `NEXT_PUBLIC_APP_URL` to your own site (e.g. `https://rfp.mydomain.com`) then you need to make this change to the env file, before you run docker-build.
+
 ## 🔌 API Endpoints
 
 ### Core APIs
