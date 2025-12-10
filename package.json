@@ -5,8 +5,10 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --turbopack",
-    "docker-build": "docker build -t auto-rfp .",
-    "docker-run": "docker run --network host --env-file .env.local auto-rfp",
+    "docker-build": "docker build --tag auto-rfp .",
+    "docker-log": "docker logs --follow auto-rfp",
+    "docker-run": "docker run --detach --network host --env-file .env.local --name auto-rfp auto-rfp",
+    "docker-stop": "docker stop auto-rfp",
     "lint": "next lint",
     "postinstall": "prisma generate",
     "start": "next start"
