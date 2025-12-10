@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/lib/utils/supabase/server'
+import { env } from '@/lib/env'
 
 export async function signInWithMagicLink(formData: FormData) {
   const supabase = await createClient()
@@ -19,7 +20,6 @@ export async function signInWithMagicLink(formData: FormData) {
 
   // Get the origin for creating the full redirect URL
   // In production, you should set NEXT_PUBLIC_APP_URL in your environment variables
-  const { env } = await import('@/lib/env')
   const origin = env.get('NEXT_PUBLIC_APP_URL')!
   
   const { error } = await supabase.auth.signInWithOtp({
