@@ -18,7 +18,7 @@ export function validateEnv() {
       Missing required environment variables:
       ${missingVars.map(v => `- ${v.key}`).join('\n      ')}
       
-      Please set these in your .env.local file
+      Please set these in your .env file
     `);
     return false;
   }
