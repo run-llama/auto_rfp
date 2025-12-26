@@ -3,11 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev --turbopack",
+    "docker-build": "docker build --tag auto-rfp .",
+    "docker-log": "docker logs --follow auto-rfp",
+    "docker-run": "docker run --rm --detach --env-file .env --name auto-rfp auto-rfp",
+    "docker-stop": "docker stop auto-rfp",
+    "health-check": "curl http://localhost:3000/api/health",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "start": "next start"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.22",
