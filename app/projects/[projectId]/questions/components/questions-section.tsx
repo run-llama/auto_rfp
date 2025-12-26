@@ -38,9 +38,7 @@ function QuestionsSectionInner({ projectId }: QuestionsSectionProps) {
     selectedIndexes,
     availableIndexes,
     organizationConnected,
-    handleIndexToggle,
-    handleSelectAllIndexes,
-    refreshQuestions, // Add this method to refresh questions after upload
+    refreshQuestions,
   } = useQuestions();
 
   const handleUploadComplete = () => {
@@ -80,8 +78,6 @@ function QuestionsSectionInner({ projectId }: QuestionsSectionProps) {
             availableIndexes={availableIndexes}
             selectedIndexes={selectedIndexes}
             organizationConnected={organizationConnected}
-            onIndexToggle={handleIndexToggle}
-            onSelectAllIndexes={handleSelectAllIndexes}
           />
 
           {/* Questions Filter Tabs */}

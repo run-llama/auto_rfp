@@ -72,8 +72,6 @@ interface QuestionsContextType {
   saveAllAnswers: () => Promise<void>;
   handleExportAnswers: () => void;
   handleSourceClick: (source: AnswerSource) => void;
-  handleIndexToggle: (indexId: string) => void;
-  handleSelectAllIndexes: () => void;
   handleAcceptMultiStepResponse: (response: string, sources: any[]) => void;
   handleCloseMultiStepDialog: () => void;
   
@@ -250,28 +248,6 @@ export function QuestionsProvider({ children, projectId }: QuestionsProviderProp
       console.error("Error in parallel loading:", error);
     });
   }, [projectId]);
-
-  // Handle index selection
-  const handleIndexToggle = (indexId: string) => {
-    setSelectedIndexes(prev => {
-      const newSelected = new Set(prev);
-      if (newSelected.has(indexId)) {
-        newSelected.delete(indexId);
-      } else {
-        newSelected.add(indexId);
-      }
-      return newSelected;
-    });
-  };
-
-  // Toggle all indexes
-  const handleSelectAllIndexes = () => {
-    if (selectedIndexes.size === availableIndexes.length) {
-      setSelectedIndexes(new Set());
-    } else {
-      setSelectedIndexes(new Set(availableIndexes.map(index => index.id)));
-    }
-  };
 
   // Handle answer changes
   const handleAnswerChange = (questionId: string, value: string) => {
@@ -706,8 +682,6 @@ export function QuestionsProvider({ children, projectId }: QuestionsProviderProp
     saveAllAnswers,
     handleExportAnswers,
     handleSourceClick,
-    handleIndexToggle,
-    handleSelectAllIndexes,
     handleAcceptMultiStepResponse,
     handleCloseMultiStepDialog,
     
