@@ -27,6 +27,7 @@ export class LlamaParseProcessingService implements ILlamaParseProcessingService
         fastMode: request.fast_mode || false,
         premiumMode: request.premium_mode || false,
         complexTables: request.preset === 'complexTables',
+        agenticMode: request.agentic_mode ?? true,
       };
 
       // Step 3: Parse the file using LlamaParse

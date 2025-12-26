@@ -15,11 +15,12 @@ export function parseFormDataToLlamaParseRequest(formData: FormData): LlamaParse
     // Parse boolean values
     const fast_mode = formData.get('fast_mode') === 'true';
     const premium_mode = formData.get('premium_mode') === 'true';
-    
+    const agentic_mode = formData.get('agentic_mode') !== 'false'; // Default to true
+
     // Parse preset
     const presetValue = formData.get('preset') as string | null;
     const preset = presetValue === 'complexTables' ? 'complexTables' as const : undefined;
-    
+
     // Parse document name
     const documentName = formData.get('documentName') as string | null;
 
@@ -27,6 +28,7 @@ export function parseFormDataToLlamaParseRequest(formData: FormData): LlamaParse
       file,
       fast_mode,
       premium_mode,
+      agentic_mode,
       preset,
       documentName: documentName || undefined,
     };
