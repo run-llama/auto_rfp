@@ -173,7 +173,7 @@ export function ProcessingModal({
                     : "Waiting for processing to begin"}
               </div>
               <div className="text-sm text-gray-500">
-                The file is being configured. This may take a while, we will notify you when it's done.
+                The file is being configured. This may take a while, we will notify you when it&apos;s done.
               </div>
               {status === "mapping" && (
                 <div className="mt-2">

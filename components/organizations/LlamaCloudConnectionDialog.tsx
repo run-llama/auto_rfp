@@ -99,7 +99,7 @@ export function LlamaCloudConnectionDialog({
           <DialogHeader>
             <DialogTitle>Connect to LlamaCloud Project</DialogTitle>
             <DialogDescription>
-              Connect your organization to a LlamaCloud project using the project's API key to access its pipelines and documents.
+              Connect your organization to a LlamaCloud project using the project&apos;s API key to access its pipelines and documents.
             </DialogDescription>
           </DialogHeader>
           

@@ -37,7 +37,7 @@ export function TestimonialsSection() {
                     ))}
                   </div>
                   <blockquote className="text-lg font-medium">
-                    "For every $1 that our company invests in AutoRFP, I estimate a return on investment of $500. We have seen really massive growth over the past few years and we couldn't have done it without AutoRFP."
+                    &quot;For every $1 that our company invests in AutoRFP, I estimate a return on investment of $500. We have seen really massive growth over the past few years and we couldn&apos;t have done it without AutoRFP.&quot;
                   </blockquote>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -91,7 +91,7 @@ export function TestimonialsSection() {
                     ))}
                   </div>
                   <blockquote className="text-lg font-medium">
-                    "We were able to reduce the time maintaining our content library by 50% through the elimination of writing/editing tasks involved in each RFP response, and AI Assistant has contributed to our increasing win rate."
+                    &quot;We were able to reduce the time maintaining our content library by 50% through the elimination of writing/editing tasks involved in each RFP response, and AI Assistant has contributed to our increasing win rate.&quot;
                   </blockquote>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -145,7 +145,7 @@ export function TestimonialsSection() {
                     ))}
                   </div>
                   <blockquote className="text-lg font-medium">
-                    "It could take 5 to 10 minutes to manually find something in the library or to take two things and merge them together. With AI Assistant, it is actually answering, on average, our questions in 30 seconds."
+                    &quot;It could take 5 to 10 minutes to manually find something in the library or to take two things and merge them together. With AI Assistant, it is actually answering, on average, our questions in 30 seconds.&quot;
                   </blockquote>
                 </div>
                 <div className="flex items-center space-x-4">

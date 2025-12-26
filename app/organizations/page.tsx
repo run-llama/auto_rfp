@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -63,11 +63,11 @@ export default function OrganizationsPage() {
     description: "",
   });
 
-  const fetchOrganizations = async () => {
+  const fetchOrganizations = useCallback(async () => {
     try {
       const response = await fetch("/api/organizations");
       const data = await response.json();
-      
+
       if (data.success) {
         setOrganizations(data.data);
       } else {
@@ -79,18 +79,18 @@ export default function OrganizationsPage() {
       }
     } catch (error) {
       toast({
-        title: "Error", 
+        title: "Error",
         description: "Failed to fetch organizations",
         variant: "destructive",
       });
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
   useEffect(() => {
     fetchOrganizations();
-  }, []);
+  }, [fetchOrganizations]);
 
   const handleCreateOrganization = async () => {
     try {

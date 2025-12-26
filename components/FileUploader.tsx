@@ -319,7 +319,7 @@ export function FileUploader({
                         </SelectContent>
                       </Select>
                       <p className="text-xs text-muted-foreground mt-1">
-                        Choose the appropriate mode based on your document's complexity
+                        Choose the appropriate mode based on your document&apos;s complexity
                       </p>
                     </div>
 

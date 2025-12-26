@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -65,38 +65,38 @@ export function LlamaCloudDocuments({ organizationId, onDisconnect }: LlamaCloud
   const [shownDocuments, setShownDocuments] = useState<Record<string, number>>({});
   const { toast } = useToast();
 
-  const fetchDocuments = async () => {
+  const fetchDocuments = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
-      
+
       const response = await fetch(`/api/llamacloud/documents?organizationId=${organizationId}`);
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to fetch documents');
       }
-      
+
       const data = await response.json();
       setDocuments(data.documents || []);
       setPipelines(data.pipelines || []);
       setConnectedAt(data.connectedAt);
-      
+
       // Auto-expand first pipeline and initialize shown documents
       if (data.documents && data.documents.length > 0) {
         const pipelineNames: string[] = Array.from(new Set(data.documents.map((doc: LlamaCloudDocument) => doc.pipelineName)));
         const initialExpanded: Record<string, boolean> = {};
         const initialShown: Record<string, number> = {};
-        
+
         pipelineNames.forEach((pipelineName, index) => {
           initialExpanded[pipelineName] = index === 0; // Expand first pipeline
           initialShown[pipelineName] = INITIAL_DOCUMENTS_SHOWN;
         });
-        
+
         setExpandedPipelines(initialExpanded);
         setShownDocuments(initialShown);
       }
-      
+
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch documents';
       setError(errorMessage);
@@ -104,11 +104,11 @@ export function LlamaCloudDocuments({ organizationId, onDisconnect }: LlamaCloud
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [organizationId]);
 
   useEffect(() => {
     fetchDocuments();
-  }, [organizationId]);
+  }, [fetchDocuments]);
 
   const handleRefresh = () => {
     fetchDocuments();

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Organization } from '@/types/organization';
 import { ProjectGrid } from '@/components/projects/ProjectGrid';
@@ -33,19 +33,19 @@ export default function OrganizationPage({ params }: OrganizationPageProps) {
     handleParams();
   }, [params]);
 
-  const fetchOrganization = async () => {
+  const fetchOrganization = useCallback(async () => {
     if (!organizationId) return;
-    
+
     try {
       setIsLoading(true);
-      
+
       // First fetch the organization by slug
       const orgResponse = await fetch(`/api/organizations/${organizationId}`);
-      
+
       if (!orgResponse.ok) {
         throw new Error('Failed to fetch organization');
       }
-      
+
       const orgData = await orgResponse.json();
 
       setOrganization(orgData);
@@ -59,13 +59,13 @@ export default function OrganizationPage({ params }: OrganizationPageProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [organizationId, toast]);
 
   useEffect(() => {
     if (organizationId) {
       fetchOrganization();
     }
-  }, [organizationId, toast]);
+  }, [organizationId, fetchOrganization]);
 
   if (isLoading) {
     return (
@@ -83,7 +83,7 @@ export default function OrganizationPage({ params }: OrganizationPageProps) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
         <h1 className="text-2xl font-bold">Organization not found</h1>
-        <p className="text-gray-600 mb-4">The organization you're looking for doesn't exist or you don't have access to it.</p>
+        <p className="text-gray-600 mb-4">The organization you&apos;re looking for doesn&apos;t exist or you don&apos;t have access to it.</p>
         <Link href="/">
           <Button>Back to Dashboard</Button>
         </Link>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -83,7 +83,7 @@ export function KnowledgeBaseContent({ params }: KnowledgeBaseContentProps) {
   });
 
   // Fetch knowledge bases
-  const fetchKnowledgeBases = async () => {
+  const fetchKnowledgeBases = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await fetch(`/api/organizations/${orgId}/knowledge-bases`);
@@ -103,10 +103,10 @@ export function KnowledgeBaseContent({ params }: KnowledgeBaseContentProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [orgId, selectedKnowledgeBase, toast]);
 
   // Fetch questions for selected knowledge base
-  const fetchQuestions = async (kbId: string) => {
+  const fetchQuestions = useCallback(async (kbId: string) => {
     try {
       const response = await fetch(`/api/organizations/${orgId}/knowledge-bases/${kbId}/questions`);
       if (response.ok) {
@@ -120,17 +120,17 @@ export function KnowledgeBaseContent({ params }: KnowledgeBaseContentProps) {
         variant: "destructive",
       });
     }
-  };
+  }, [orgId, toast]);
 
   useEffect(() => {
     fetchKnowledgeBases();
-  }, [orgId]);
+  }, [fetchKnowledgeBases]);
 
   useEffect(() => {
     if (selectedKnowledgeBase) {
       fetchQuestions(selectedKnowledgeBase.id);
     }
-  }, [selectedKnowledgeBase]);
+  }, [selectedKnowledgeBase, fetchQuestions]);
 
   // Create knowledge base
   const handleCreateKB = async (e: React.FormEvent) => {

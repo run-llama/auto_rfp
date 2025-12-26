@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -29,15 +29,15 @@ export function ProjectTimeline({ projectId }: ProjectTimelineProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchTimeline = async () => {
+  const fetchTimeline = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await fetch(`/api/projects/${projectId}/timeline`);
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch timeline');
       }
-      
+
       const data = await response.json();
       setActivities(data.activities || []);
       setError(null);
@@ -47,13 +47,13 @@ export function ProjectTimeline({ projectId }: ProjectTimelineProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [projectId]);
 
   useEffect(() => {
     if (projectId) {
       fetchTimeline();
     }
-  }, [projectId]);
+  }, [projectId, fetchTimeline]);
 
   if (isLoading) {
     return (

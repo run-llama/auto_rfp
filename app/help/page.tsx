@@ -128,7 +128,7 @@ export default function HelpPage() {
                     <ul className="text-sm text-muted-foreground space-y-1">
                       <li className="flex items-center gap-2">
                         <CheckCircle className="h-3 w-3 text-green-500" />
-                        Click "Create Organization" on the dashboard
+                        Click &quot;Create Organization&quot; on the dashboard
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="h-3 w-3 text-green-500" />
@@ -183,7 +183,7 @@ export default function HelpPage() {
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="h-3 w-3 text-green-500" />
-                        Click "Create Project" button
+                        Click &quot;Create Project&quot; button
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle className="h-3 w-3 text-green-500" />
@@ -443,7 +443,7 @@ export default function HelpPage() {
             <CardHeader>
               <CardTitle>Organization Settings</CardTitle>
               <CardDescription>
-                Configure your organization's AI and integration settings
+                Configure your organization&apos;s AI and integration settings
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">

@@ -186,7 +186,7 @@ export function AISuggestionsPanel({ questionId }: AISuggestionsPanelProps) {
           <TabsContent value="suggestion3" className="space-y-3">
             <div className="rounded-lg border p-3 text-sm">
               <p>
-                Our technical architecture is specifically designed to meet Velocity Labs' requirements for a scalable,
+                Our technical architecture is specifically designed to meet Velocity Labs&apos; requirements for a scalable,
                 secure, and maintainable healthcare solution. The architecture leverages industry best practices and our
                 extensive experience in HIPAA-compliant systems:
               </p>
@@ -194,7 +194,7 @@ export function AISuggestionsPanel({ questionId }: AISuggestionsPanelProps) {
               <p>
                 <strong>1. User Interface:</strong> A responsive web application built with React, featuring an
                 intuitive interface designed specifically for healthcare professionals. The UI incorporates Velocity
-                Labs' design system for brand consistency.
+                Labs&apos; design system for brand consistency.
               </p>
               <br />
               <p>
@@ -210,7 +210,7 @@ export function AISuggestionsPanel({ questionId }: AISuggestionsPanelProps) {
               </p>
               <br />
               <p>
-                <strong>4. Integration Hub:</strong> A dedicated integration layer for connecting with Velocity Labs'
+                <strong>4. Integration Hub:</strong> A dedicated integration layer for connecting with Velocity Labs&apos;
                 existing systems, including HL7 FHIR support for healthcare interoperability and secure connections to
                 third-party services.
               </p>

@@ -124,7 +124,7 @@ export function SettingsContent({ orgId }: SettingsContentProps) {
             <CardHeader>
               <CardTitle>General Settings</CardTitle>
               <CardDescription>
-                Manage your organization's basic information
+                Manage your organization&apos;s basic information
               </CardDescription>
             </CardHeader>
             <CardContent>

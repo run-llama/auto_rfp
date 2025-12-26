@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -44,20 +44,20 @@ export function ProjectIndexSelector({ projectId }: ProjectIndexSelectorProps) {
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
 
-  const fetchProjectIndexes = async () => {
+  const fetchProjectIndexes = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
-      
+
       const response = await fetch(`/api/projects/${projectId}/indexes`);
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to fetch project indexes');
       }
-      
+
       const data = await response.json();
-      
+
       setCurrentIndexes(data.currentIndexes || []);
       setAvailableIndexes(data.availableIndexes || []);
       setSelectedIndexIds(data.currentIndexes?.map((index: ProjectIndex) => index.id) || []);
@@ -65,7 +65,7 @@ export function ProjectIndexSelector({ projectId }: ProjectIndexSelectorProps) {
       setProjectName(data.project?.name || '');
       setOrganizationName(data.organizationName || '');
       setLlamaCloudProjectName(data.llamaCloudProjectName || '');
-      
+
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch project indexes';
       setError(errorMessage);
@@ -73,11 +73,11 @@ export function ProjectIndexSelector({ projectId }: ProjectIndexSelectorProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [projectId]);
 
   useEffect(() => {
     fetchProjectIndexes();
-  }, [projectId]);
+  }, [fetchProjectIndexes]);
 
   const handleIndexToggle = (indexId: string, checked: boolean) => {
     if (!isEditing) return; // Only allow changes in edit mode
@@ -242,7 +242,7 @@ export function ProjectIndexSelector({ projectId }: ProjectIndexSelectorProps) {
           Project Indexes
         </CardTitle>
         <CardDescription>
-          Select which indexes from {organizationName}'s LlamaCloud project "{llamaCloudProjectName}" this project can access
+          Select which indexes from {organizationName}&apos;s LlamaCloud project &quot;{llamaCloudProjectName}&quot; this project can access
           {isEditing && (
             <span className="inline-flex items-center gap-1 ml-2 text-blue-600 font-medium">
               <Edit3 className="h-3 w-3" />
@@ -257,7 +257,7 @@ export function ProjectIndexSelector({ projectId }: ProjectIndexSelectorProps) {
             <FolderOpen className="mx-auto h-8 w-8 text-muted-foreground mb-3" />
             <h3 className="text-lg font-medium mb-2">No Indexes Available</h3>
             <p className="text-muted-foreground">
-              No indexes were found in your organization's LlamaCloud project.
+              No indexes were found in your organization&apos;s LlamaCloud project.
             </p>
           </div>
         ) : (

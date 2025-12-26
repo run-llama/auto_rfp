@@ -39,7 +39,7 @@ export function IndexSelector({
             <div>
               <p className="font-medium text-amber-800">No Project Indexes Configured</p>
               <p className="text-sm text-amber-700">
-                This project has no document indexes configured. Go to the project's Documents tab to select indexes from your organization's LlamaCloud connection.
+                This project has no document indexes configured. Go to the project&apos;s Documents tab to select indexes from your organization&apos;s LlamaCloud connection.
               </p>
             </div>
           </div>
@@ -57,7 +57,7 @@ export function IndexSelector({
             <div>
               <p className="font-medium text-amber-800">No Project Indexes Configured</p>
               <p className="text-sm text-amber-700">
-                This project has no document indexes configured. Go to the project's Documents tab to select indexes from your organization's LlamaCloud connection.
+                This project has no document indexes configured. Go to the project&apos;s Documents tab to select indexes from your organization&apos;s LlamaCloud connection.
               </p>
             </div>
           </div>
@@ -111,7 +111,7 @@ export function IndexSelector({
             
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">
-                Select which of this project's configured indexes to use when generating AI answers:
+                Select which of this project&apos;s configured indexes to use when generating AI answers:
               </p>
               <Button
                 variant="outline"

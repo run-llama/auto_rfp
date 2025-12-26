@@ -4,10 +4,10 @@ export default function ConfirmationPage() {
       <h1 className="text-2xl font-bold">Check your email</h1>
       <div className="max-w-md text-center">
         <p className="mb-4">
-          We've sent you a magic link to your email address. Click the link in the email to sign in.
+          We&apos;ve sent you a magic link to your email address. Click the link in the email to sign in.
         </p>
         <p className="text-sm text-gray-500">
-          If you don't see the email, check your spam folder. The link will expire after 24 hours.
+          If you don&apos;t see the email, check your spam folder. The link will expire after 24 hours.
         </p>
       </div>
     </div>

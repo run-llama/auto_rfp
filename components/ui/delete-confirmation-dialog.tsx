@@ -44,7 +44,7 @@ export function DeleteConfirmationDialog({
           <AlertDialogDescription className="space-y-2">
             <span className="block">{description}</span>
             <span className="block font-medium text-foreground">
-              Are you sure you want to delete "{itemName}"?
+              Are you sure you want to delete &quot;{itemName}&quot;?
             </span>
             <span className="block text-sm text-muted-foreground">
               This action cannot be undone. All associated data including questions, answers, and documents will be permanently removed.

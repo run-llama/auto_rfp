@@ -54,7 +54,7 @@ export default function LoginPage() {
               </form>
               
               <p className="mt-4 text-center text-xs text-gray-500">
-                We'll email you a magic link for a password-free sign in.
+                We&apos;ll email you a magic link for a password-free sign in.
               </p>
 
             </div>
