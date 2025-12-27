@@ -82,6 +82,9 @@ OPENAI_API_KEY=<your-openai-api-key>
 
 # LlamaCloud
 LLAMACLOUD_API_KEY=<your-llamacloud-api-key>
+# Optional: LlamaCloud API URL (defaults to US: https://api.cloud.llamaindex.ai)
+# For EU region, use: https://api.cloud.eu.llamaindex.ai
+# LLAMACLOUD_API_URL=https://api.cloud.eu.llamaindex.ai
 # Optional: Internal API key and domain for internal users
 # LLAMACLOUD_API_KEY_INTERNAL=<your-internal-llamacloud-api-key>
 # INTERNAL_EMAIL_DOMAIN=<your-domain>  # Defaults to @runllama.ai

@@ -46,15 +46,19 @@ export class LlamaIndexService implements ILlamaIndexService {
   private initializeIndexes(): void {
 
     try {
+      // Extract hostname from LLAMACLOUD_API_URL for LlamaCloudIndex
+      // The SDK expects just the hostname (e.g., 'api.cloud.eu.llamaindex.ai')
+      const baseUrlHostname = new URL(env.LLAMACLOUD_API_URL).hostname;
 
       console.log('Initializing LlamaCloud indexes with config:', this.config);
       if (this.config.indexNames && this.config.indexNames.length > 0) {
         this.indexes.push(
-          ...this.config.indexNames.map(indexName => 
+          ...this.config.indexNames.map(indexName =>
             new LlamaCloudIndex({
               name: indexName,
               projectName: this.config.projectName,
               apiKey: this.config.apiKey,
+              baseUrl: baseUrlHostname,
             })
           )
         );

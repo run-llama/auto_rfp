@@ -2,6 +2,7 @@
 export const env = {
   LLAMACLOUD_API_KEY: process.env.LLAMACLOUD_API_KEY || '',
   LLAMACLOUD_API_KEY_INTERNAL: process.env.LLAMACLOUD_API_KEY_INTERNAL || '',
+  LLAMACLOUD_API_URL: process.env.LLAMACLOUD_API_URL || 'https://api.cloud.llamaindex.ai',
   INTERNAL_EMAIL_DOMAIN: process.env.INTERNAL_EMAIL_DOMAIN || '@runllama.ai',
 };
 

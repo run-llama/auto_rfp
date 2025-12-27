@@ -86,14 +86,14 @@ async function fetchLlamaCloudProjects(userEmail?: string) {
     const apiKey = getLlamaCloudApiKey(userEmail);
 
     const [projectsResponse, organizationsResponse] = await Promise.all([
-      fetch('https://api.cloud.llamaindex.ai/api/v1/projects', {
+      fetch(`${env.LLAMACLOUD_API_URL}/api/v1/projects`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
       }),
-      fetch('https://api.cloud.llamaindex.ai/api/v1/organizations', {
+      fetch(`${env.LLAMACLOUD_API_URL}/api/v1/organizations`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
