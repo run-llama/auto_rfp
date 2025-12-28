@@ -10,7 +10,7 @@ import {
   ResponseSynthesis,
   MultiStepConfig
 } from '@/lib/validators/multi-step-response';
-import { LlamaIndexService } from '@/lib/llama-index-service';
+import { LlamaIndexService } from '@/lib/llamaindex-service';
 import { generateId } from 'ai';
 import { db } from '@/lib/db';
 import { organizationService } from '@/lib/organization-service';

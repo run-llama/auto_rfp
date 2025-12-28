@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { NextRequest } from 'next/server';
 import { organizationService } from '@/lib/organization-service';
 import { db } from '@/lib/db';
-import { LlamaIndexService } from '@/lib/llama-index-service';
+import { LlamaIndexService } from '@/lib/llamaindex-service';
 import { getLlamaCloudApiKey } from '@/lib/env';
 
 export async function POST(request: NextRequest) {
