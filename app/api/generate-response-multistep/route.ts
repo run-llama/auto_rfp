@@ -9,14 +9,8 @@ import { getLlamaCloudApiKey } from '@/lib/env';
 
 export async function POST(request: NextRequest) {
   console.log('🎯 Multi-step API route called');
-  
+
   try {
-    // Check OpenAI API key
-    if (!process.env.OPENAI_API_KEY) {
-      console.log('❌ OPENAI_API_KEY not configured');
-      return new Response('OpenAI API key not configured', { status: 500 });
-    }
-    
     const body = await request.json();
     console.log('📝 Request body:', JSON.stringify(body, null, 2));
     

@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/lib/utils/supabase/server'
+import { env } from '@/lib/env'
 
 export async function signInWithMagicLink(formData: FormData) {
   const supabase = await createClient()
@@ -27,7 +28,7 @@ export async function signInWithMagicLink(formData: FormData) {
       return `${protocol}://${process.env.VERCEL_URL}`
     }
     // For local development or custom deployments
-    return process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    return env.get('NEXT_PUBLIC_APP_URL')!
   }
 
   const origin = getOrigin()
