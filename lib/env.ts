@@ -9,7 +9,76 @@
  * - Optional (without default): Can be set (use with test)
  */
 
-export const env = new Map<string, string | undefined>([
+/**
+ * Define all valid environment variable keys
+ * This provides compile-time type safety for env.get() calls
+ */
+const ENV_KEYS = {
+  // Database
+  DATABASE_URL: 'DATABASE_URL',
+  DIRECT_URL: 'DIRECT_URL',
+
+  // Supabase
+  NEXT_PUBLIC_SUPABASE_URL: 'NEXT_PUBLIC_SUPABASE_URL',
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+
+  // OpenAI
+  OPENAI_API_KEY: 'OPENAI_API_KEY',
+
+  // LlamaCloud
+  LLAMACLOUD_API_KEY: 'LLAMACLOUD_API_KEY',
+  LLAMACLOUD_API_KEY_INTERNAL: 'LLAMACLOUD_API_KEY_INTERNAL',
+  LLAMACLOUD_API_URL: 'LLAMACLOUD_API_URL',
+  INTERNAL_EMAIL_DOMAIN: 'INTERNAL_EMAIL_DOMAIN',
+
+  // App configuration
+  NEXT_PUBLIC_APP_URL: 'NEXT_PUBLIC_APP_URL',
+  NODE_ENV: 'NODE_ENV',
+} as const;
+
+/**
+ * Type representing valid environment variable keys
+ * Derived from ENV_KEYS to ensure single source of truth
+ */
+type EnvKey = keyof typeof ENV_KEYS;
+
+/**
+ * Type-safe wrapper around Map for environment variables
+ * Prevents typos by only accepting valid EnvKey values
+ */
+class EnvStore {
+  private store: Map<string, string | undefined>;
+
+  constructor(initialValues: Map<string, string | undefined>) {
+    this.store = initialValues;
+  }
+
+  /**
+   * Get environment variable value by key
+   * Only accepts valid EnvKey types - typos will cause compile-time errors
+   */
+  get(key: EnvKey): string | undefined {
+    return this.store.get(key);
+  }
+
+  /**
+   * Iterate over all environment variables
+   * Used by validation logic
+   */
+  forEach(callback: (value: string | undefined, key: string) => void): void {
+    this.store.forEach(callback);
+  }
+
+  /**
+   * Get iterator over environment variable entries
+   * Used by validation logic
+   */
+  entries(): IterableIterator<[string, string | undefined]> {
+    return this.store.entries();
+  }
+}
+
+const envMap = new Map<string, string | undefined>([
   // Database
   ['DATABASE_URL', process.env.DATABASE_URL || 'mandatory-env-not-set'],
   ['DIRECT_URL', process.env.DIRECT_URL || 'mandatory-env-not-set'],
@@ -31,6 +100,12 @@ export const env = new Map<string, string | undefined>([
   ['NEXT_PUBLIC_APP_URL', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'],
   ['NODE_ENV', process.env.NODE_ENV || 'development'],
 ]);
+
+/**
+ * Type-safe environment variable store
+ * Use env.get(key) to access variables - only valid keys are accepted
+ */
+export const env = new EnvStore(envMap);
 
 function logEnv() {
   const sensitiveVars = [
