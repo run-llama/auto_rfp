@@ -103,7 +103,7 @@ export default function OrganizationPage({ params }: OrganizationPageProps) {
         <div className="flex gap-2">
           <Button onClick={() => setIsCreateProjectOpen(true)}>
             <PlusCircle className="mr-2 h-4 w-4" />
-            New Project
+            Create Project
           </Button>
         </div>
       </div>
