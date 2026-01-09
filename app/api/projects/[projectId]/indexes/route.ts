@@ -74,7 +74,7 @@ export async function GET(
       // Get the appropriate API key based on user's email
       const apiKey = getLlamaCloudApiKey(currentUser.email);
       
-      const pipelinesResponse = await fetch(`${env.LLAMACLOUD_API_URL}/api/v1/pipelines`, {
+      const pipelinesResponse = await fetch(`${env.get('LLAMACLOUD_API_URL')!}/api/v1/pipelines`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
@@ -245,7 +245,7 @@ export async function POST(
       // Get the appropriate API key based on user's email
       const apiKey = getLlamaCloudApiKey(currentUser.email);
 
-      const pipelinesResponse = await fetch(`${env.LLAMACLOUD_API_URL}/api/v1/pipelines`, {
+      const pipelinesResponse = await fetch(`${env.get('LLAMACLOUD_API_URL')!}/api/v1/pipelines`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${apiKey}`,

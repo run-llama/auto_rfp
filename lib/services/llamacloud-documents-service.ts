@@ -8,7 +8,7 @@ import { llamaCloudClient } from './llamacloud-client';
 import { organizationAuth } from './organization-auth';
 import { db } from '@/lib/db';
 import { DatabaseError, LlamaCloudConnectionError, NotFoundError } from '@/lib/errors/api-errors';
-import { env, validateEnv, getLlamaCloudApiKey } from '@/lib/env';
+import { env, getLlamaCloudApiKey } from '@/lib/env';
 
 /**
  * LlamaCloud documents management service
@@ -22,12 +22,7 @@ export class LlamaCloudDocumentsService implements ILlamaCloudDocumentsService {
       // Step 1: Verify user has organization access
       await organizationAuth.requireMembership(userId, request.organizationId);
 
-      // Step 2: Validate environment variables
-      if (!validateEnv()) {
-        throw new LlamaCloudConnectionError('LlamaCloud API key not configured in environment variables');
-      }
-
-      // Get user's email to determine which API key to use
+      // Step 2: Get user's email to determine which API key to use
       const user = await db.user.findUnique({
         where: { id: userId },
         select: { email: true }
@@ -125,16 +120,11 @@ export class LlamaCloudDocumentsService implements ILlamaCloudDocumentsService {
    */
   async fetchDocumentsForAllPipelines(organizationId: string): Promise<LlamaCloudFile[]> {
     try {
-      // Validate environment variables
-      if (!validateEnv()) {
-        throw new LlamaCloudConnectionError('LlamaCloud API key not configured in environment variables');
-      }
-
       const organization = await this.getConnectedOrganization(organizationId);
 
       // Get all pipelines for the project
       const pipelines = await llamaCloudClient.fetchPipelinesForProject(
-        env.LLAMACLOUD_API_KEY,
+        env.get('LLAMACLOUD_API_KEY')!,
         organization.llamaCloudProjectId!
       );
 
@@ -143,7 +133,7 @@ export class LlamaCloudDocumentsService implements ILlamaCloudDocumentsService {
       for (const pipeline of pipelines) {
         try {
           const documents = await llamaCloudClient.fetchFilesForPipeline(
-            env.LLAMACLOUD_API_KEY,
+            env.get('LLAMACLOUD_API_KEY')!,
             pipeline.id
           );
           

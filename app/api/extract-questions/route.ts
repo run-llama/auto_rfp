@@ -2,13 +2,19 @@ import { NextRequest } from 'next/server';
 import { apiHandler } from '@/lib/middleware/api-handler';
 import { ExtractQuestionsRequestSchema } from '@/lib/validators/extract-questions';
 import { questionExtractionService } from '@/lib/services/question-extraction-service';
-import { ValidationError } from '@/lib/errors/api-errors';
+import { AuthorizationError } from '@/lib/errors/api-errors';
+import { organizationService } from '@/lib/organization-service';
 
 export async function POST(request: NextRequest) {
   return apiHandler(async () => {
-    // Parse and validate request body
+    // SECURITY: Verify authentication first
+    const currentUser = await organizationService.getCurrentUser();
+    if (!currentUser) {
+      throw new AuthorizationError('Authentication required');
+    }
 
-    console.log("request", request);  
+    // Parse and validate request body
+    console.log("request", request);
     const body = await request.json();
     const validatedRequest = ExtractQuestionsRequestSchema.parse(body);
     

@@ -1,17 +1,10 @@
 import { NextRequest } from 'next/server';
 import { apiHandler } from '@/lib/middleware/api-handler';
-import { env, validateEnv, getLlamaCloudApiKey } from '@/lib/env';
+import { env, getLlamaCloudApiKey } from '@/lib/env';
 import { organizationService } from '@/lib/organization-service';
 
 export async function GET(request: NextRequest) {
   return apiHandler(async () => {
-    // Validate environment variables
-    if (!validateEnv()) {
-      return new Response(
-        JSON.stringify({ error: 'LlamaCloud API key not configured in environment variables' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
 
     try {
       // Get current user to determine which API key to use
@@ -20,14 +13,14 @@ export async function GET(request: NextRequest) {
 
       // Fetch projects and organizations from LlamaCloud
       const [projectsResponse, organizationsResponse] = await Promise.all([
-        fetch(`${env.LLAMACLOUD_API_URL}/api/v1/projects`, {
+        fetch(`${env.get('LLAMACLOUD_API_URL')!}/api/v1/projects`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
           },
         }),
-        fetch(`${env.LLAMACLOUD_API_URL}/api/v1/organizations`, {
+        fetch(`${env.get('LLAMACLOUD_API_URL')!}/api/v1/organizations`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${apiKey}`,

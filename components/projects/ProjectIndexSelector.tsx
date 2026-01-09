@@ -85,7 +85,12 @@ export function ProjectIndexSelector({ projectId, onSaveSuccess }: ProjectIndexS
     setSelectedIndexId(prev => prev === indexId ? null : indexId);
   };
 
-  const handleSave = async () => {
+  const hasChanges = useCallback(() => {
+    const currentId = currentIndexes.length > 0 ? currentIndexes[0].id : null;
+    return selectedIndexId !== currentId;
+  }, [currentIndexes, selectedIndexId]);
+
+  const handleSave = useCallback(async () => {
     try {
       setIsSaving(true);
 
@@ -121,12 +126,7 @@ export function ProjectIndexSelector({ projectId, onSaveSuccess }: ProjectIndexS
     } finally {
       setIsSaving(false);
     }
-  };
-
-  const hasChanges = () => {
-    const currentId = currentIndexes.length > 0 ? currentIndexes[0].id : null;
-    return selectedIndexId !== currentId;
-  };
+  }, [projectId, selectedIndexId, onSaveSuccess, toast]);
 
   // Debounced auto-save effect
   useEffect(() => {
@@ -141,7 +141,7 @@ export function ProjectIndexSelector({ projectId, onSaveSuccess }: ProjectIndexS
     }, 800);
 
     return () => clearTimeout(timer);
-  }, [selectedIndexId]);
+  }, [selectedIndexId, isInitialized, isLoading, hasChanges, handleSave]);
 
   if (isLoading) {
     return (

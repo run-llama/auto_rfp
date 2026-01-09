@@ -9,7 +9,7 @@ import { llamaCloudClient } from './llamacloud-client';
 import { organizationAuth } from './organization-auth';
 import { db } from '@/lib/db';
 import { DatabaseError, LlamaCloudConnectionError } from '@/lib/errors/api-errors';
-import { env, validateEnv, getLlamaCloudApiKey } from '@/lib/env';
+import { env, getLlamaCloudApiKey } from '@/lib/env';
 
 /**
  * Main LlamaCloud connection management service
@@ -23,12 +23,7 @@ export class LlamaCloudConnectionService implements ILlamaCloudConnectionService
       // Step 1: Verify user has admin access
       await organizationAuth.requireAdminAccess(userId, request.organizationId);
 
-      // Step 2: Validate environment variables
-      if (!validateEnv()) {
-        throw new LlamaCloudConnectionError('LlamaCloud API key not configured in environment variables');
-      }
-
-      // Get user's email to determine which API key to use
+      // Step 2: Get user's email to determine which API key to use
       const user = await db.user.findUnique({
         where: { id: userId },
         select: { email: true }
@@ -167,8 +162,8 @@ export class LlamaCloudConnectionService implements ILlamaCloudConnectionService
         },
       });
 
-      // Connection is considered active if there's a project ID and the environment API key is available
-      const isConnected = !!(organization?.llamaCloudProjectId && validateEnv());
+      // Connection is considered active if there's a project ID
+      const isConnected = !!organization?.llamaCloudProjectId;
 
       return {
         isConnected,

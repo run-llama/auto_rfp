@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { organizationService } from '@/lib/organization-service';
 import { llamaCloudConnectionService } from '@/lib/services/llamacloud-connection-service';
-import { env, validateEnv, getLlamaCloudApiKey } from '@/lib/env';
+import { env, getLlamaCloudApiKey } from '@/lib/env';
 
 export async function GET() {
 
@@ -78,22 +78,19 @@ export async function GET() {
 // Helper function to fetch available LlamaCloud projects
 async function fetchLlamaCloudProjects(userEmail?: string) {
   try {
-    if (!validateEnv()) {
-      return [];
-    }
 
     // Get the appropriate API key based on user's email
     const apiKey = getLlamaCloudApiKey(userEmail);
 
     const [projectsResponse, organizationsResponse] = await Promise.all([
-      fetch(`${env.LLAMACLOUD_API_URL}/api/v1/projects`, {
+      fetch(`${env.get('LLAMACLOUD_API_URL')!}/api/v1/projects`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
       }),
-      fetch(`${env.LLAMACLOUD_API_URL}/api/v1/organizations`, {
+      fetch(`${env.get('LLAMACLOUD_API_URL')!}/api/v1/organizations`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${apiKey}`,

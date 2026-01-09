@@ -1,6 +1,6 @@
 import { db } from '@/lib/db';
 import { organizationService } from '@/lib/organization-service';
-import { LlamaIndexService } from '@/lib/llama-index-service';
+import { LlamaIndexService } from '@/lib/llamaindex-service';
 import { getLlamaCloudApiKey } from '@/lib/env';
 import { 
   GenerateResponseRequest, 

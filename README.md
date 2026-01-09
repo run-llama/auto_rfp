@@ -93,7 +93,9 @@ LLAMACLOUD_API_KEY=<your-llamacloud-api-key>
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-**Note**: To use the env file for the app AND for docker the env var values cannot be in quotes.
+**Important Notes:**
+- Environment variable values should NOT be wrapped in quotes for Docker compatibility
+- See the [Environment Variables](#-environment-variables) section below for critical information about `NEXT_PUBLIC_*` variables
 
 ### 4. Database Setup
 
@@ -260,7 +262,28 @@ pnpm docker-run
 
 **Note:** The Docker container uses Next.js standalone output mode for optimized production deployment. Make sure your `.env.local` includes a database connection string that's accessible from within the Docker container.
 
-**IMPORTANT NOTE**: When you build/run a docker container all of the `NEXT_*` env vars are resolved at `build-time` (when the container is built; because the vars also need to be available in the frontend and are generated into the frontend code). The other vars are resolved at `run-time` (when the container is started). Means, if you (for instance) need to set `NEXT_PUBLIC_APP_URL` to your own site (e.g. `https://rfp.mydomain.com`) then you need to make this change to the env file, before you run docker-build.
+**CRITICAL: Build-Time vs Runtime Variables**
+
+Environment variables with the `NEXT_PUBLIC_` prefix are resolved at **build-time**, while others are resolved at **runtime**:
+
+- **Build-Time (`NEXT_PUBLIC_*`)**: Embedded into the generated JavaScript during build
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+  - `NEXT_PUBLIC_APP_URL`
+  - **Require Docker rebuild** when changed
+
+- **Runtime (others)**: Read from environment when server starts
+  - `DATABASE_URL`
+  - `OPENAI_API_KEY`
+  - `LLAMACLOUD_API_KEY`
+  - Can be changed by restarting the container
+
+**Example**: To change `NEXT_PUBLIC_APP_URL` from `http://localhost:3000` to `https://rfp.mydomain.com`:
+1. Update the `.env` file
+2. Run `pnpm docker-build` (rebuild required!)
+3. Run `pnpm docker-run`
+
+Simply changing the environment variable and restarting will NOT work for `NEXT_PUBLIC_*` variables. See the [Environment Variables](#-environment-variables) section for more details.
 
 ## 🔌 API Endpoints
 
@@ -285,6 +308,147 @@ pnpm docker-run
 Try the platform with our sample RFP document:
 - **Sample File**: [RFP - Launch Services for Medium-Lift Payloads][rfp-sample-file]
 - **Use Case**: Download and upload to test question extraction and response generation
+
+## 🔐 Environment Variables
+
+### Understanding Build-Time vs Runtime Variables
+
+AutoRFP uses a centralized environment variable management system through `lib/env.ts`. Understanding how different variables are resolved is critical for proper deployment, especially with Docker.
+
+### Variable Types
+
+#### Runtime Variables (Server-Side Only)
+
+Variables **without** the `NEXT_PUBLIC_` prefix are resolved at **runtime**:
+
+```bash
+DATABASE_URL=postgresql://...
+DIRECT_URL=postgresql://...
+OPENAI_API_KEY=sk-...
+LLAMACLOUD_API_KEY=llx-...
+LLAMACLOUD_API_KEY_INTERNAL=llx-...
+LLAMACLOUD_API_URL=https://api.cloud.llamaindex.ai
+INTERNAL_EMAIL_DOMAIN=@runllama.ai
+NODE_ENV=production
+```
+
+**Characteristics:**
+- ✅ Only available on the server (API routes, server components)
+- ✅ Read from environment when server starts
+- ✅ Can be changed without rebuilding
+- ✅ NOT bundled into client JavaScript
+- ✅ Safe for secrets and credentials
+
+**Docker behavior:**
+- Can be changed by updating `.env` and restarting the container
+- No rebuild required
+
+#### Build-Time Variables (Public/Client-Side)
+
+Variables **with** the `NEXT_PUBLIC_` prefix are resolved at **build-time**:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+NEXT_PUBLIC_APP_URL=https://rfp.mydomain.com
+```
+
+**Characteristics:**
+- ⚠️ Available on both server AND client
+- ⚠️ Embedded into generated JavaScript during build
+- ⚠️ Require rebuild to reflect changes
+- ⚠️ Visible in browser DevTools (never use for secrets!)
+
+**Docker behavior:**
+- **MUST rebuild Docker image** when changed
+- Restarting the container alone will NOT pick up changes
+- The built JavaScript contains hardcoded values
+
+### Why This Matters for Docker
+
+When Next.js builds your application, it performs a step called "static optimization" where it replaces all `process.env.NEXT_PUBLIC_*` references with their literal string values. This means:
+
+```javascript
+// Your code:
+const apiUrl = process.env.NEXT_PUBLIC_APP_URL;
+
+// After build (in the generated JavaScript):
+const apiUrl = "http://localhost:3000";
+```
+
+The Docker image contains these pre-built files with hardcoded values. Changing environment variables at runtime won't affect code that was already compiled.
+
+### Docker Deployment Workflow
+
+**Wrong approach** (will not work):
+```bash
+# Build with localhost
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+pnpm docker-build
+
+# Try to change to production (THIS WON'T WORK!)
+NEXT_PUBLIC_APP_URL=https://rfp.mydomain.com
+pnpm docker-run
+# ❌ App will still use http://localhost:3000
+```
+
+**Correct approach**:
+```bash
+# Set production values BEFORE building
+NEXT_PUBLIC_APP_URL=https://rfp.mydomain.com
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+
+# Build with production values
+pnpm docker-build
+
+# Run the container
+pnpm docker-run
+# ✅ App will use https://rfp.mydomain.com
+```
+
+### Best Practices
+
+**For Development:**
+- Use `.env.local` for local development variables
+- Keep `NEXT_PUBLIC_APP_URL=http://localhost:3000`
+
+**For Docker/Production:**
+- Create environment-specific `.env` files (`.env.production`, `.env.staging`)
+- Set all `NEXT_PUBLIC_*` variables correctly before building
+- Build separate Docker images for each environment
+- Never expose secrets in `NEXT_PUBLIC_*` variables
+
+**For Multi-Environment Deployments:**
+```bash
+# Development build
+cp .env.development .env
+pnpm docker-build -t auto_rfp:dev
+
+# Production build
+cp .env.production .env
+pnpm docker-build -t auto_rfp:prod
+```
+
+### Accessing Variables in Code
+
+All environment variable access goes through the centralized `lib/env.ts` module:
+
+```typescript
+// ✅ Correct
+import { env } from '@/lib/env';
+const apiKey = env.get('OPENAI_API_KEY')!;
+const appUrl = env.get('NEXT_PUBLIC_APP_URL')!;
+
+// ❌ Incorrect
+const apiKey = process.env.OPENAI_API_KEY;
+```
+
+### Startup Validation
+
+Environment variables are validated once at server startup via `instrumentation.ts`:
+- Application will not start if required variables are missing
+- Validation errors are logged clearly
+- Eliminates per-request validation overhead
 
 ## 🐛 Troubleshooting
 

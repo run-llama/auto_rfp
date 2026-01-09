@@ -62,6 +62,14 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
   const fetchOrganizations = async () => {
     try {
       const response = await fetch("/api/organizations");
+
+      // Check if response is JSON before parsing
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        console.error("Expected JSON response but got:", contentType);
+        return;
+      }
+
       const data = await response.json();
       if (data.success) {
         setOrganizations(data.data);
@@ -75,8 +83,16 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
     try {
       // Track which organization we're fetching for
       fetchingProjectsForOrgRef.current = organizationId;
-      
+
       const response = await fetch(`/api/projects?organizationId=${organizationId}`);
+
+      // Check if response is JSON before parsing
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        console.error("Expected JSON response but got:", contentType);
+        return;
+      }
+
       const data = await response.json();
       if (data.success) {
         // Only set projects if we're still fetching for the same organization
@@ -92,6 +108,14 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
   const fetchProjectById = async (projectId: string) => {
     try {
       const response = await fetch(`/api/projects/${projectId}`);
+
+      // Check if response is JSON before parsing
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        console.error("Expected JSON response but got:", contentType);
+        throw new Error(`Expected JSON response but got: ${contentType}`);
+      }
+
       if (!response.ok) {
         throw new Error(`Failed to fetch project: ${response.statusText}`);
       }

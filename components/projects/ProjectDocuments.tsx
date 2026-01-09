@@ -230,7 +230,7 @@ export function ProjectDocuments({ projectId, refreshKey }: ProjectDocumentsProp
 
   useEffect(() => {
     fetchProjectDocuments();
-  }, [projectId, refreshKey]);
+  }, [projectId, refreshKey, fetchProjectDocuments]);
 
   const handleRefresh = () => {
     fetchProjectDocuments();
